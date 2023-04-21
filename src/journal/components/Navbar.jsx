@@ -1,15 +1,16 @@
 import { LogoutOutlined, MenuOutlined } from '@mui/icons-material'
-import { AppBar, Grid, IconButton, Toolbar, Typography } from '@mui/material'
+import { AppBar, Button, Grid, IconButton, Toolbar, Typography } from '@mui/material'
 import React from 'react'
 
 export const Navbar = ({sidebarWidth}) => {
     return (
         <AppBar 
-            position='fixed'
+            position="fixed"
             sx={{
                 width: {sm: `calc(100% - ${sidebarWidth}px)`},
                 ml: {sm: `${sidebarWidth}`}
             }}
+            variant="dense"
         >
             <Toolbar>
                 <IconButton
@@ -20,12 +21,15 @@ export const Navbar = ({sidebarWidth}) => {
                     <MenuOutlined />
                 </IconButton>
 
-                <Grid container direction="row" justifyContent='space-between' alignItems="center">
+                <Grid container direction="row" justifyContent='center' alignItems="center" sx={{ml: 15}}>
                     <Typography variant="h6" component="div">JournalApp</Typography>
+                </Grid>
 
-                    <IconButton color="error">
-                        <LogoutOutlined />
-                    </IconButton>
+                <Grid container justifyContent="end" direction="row" alignItems="center" flexBasis={0}>
+                    <Button variant="contained" color="secondary">
+                        <Typography sx={{fontSize: 14, mr: 1}}>Logout</Typography>
+                        <LogoutOutlined sx={{fontSize: 20}} />
+                    </Button>
                 </Grid>
             </Toolbar>
 
