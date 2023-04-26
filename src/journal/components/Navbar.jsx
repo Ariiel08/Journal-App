@@ -1,8 +1,17 @@
 import { LogoutOutlined, MenuOutlined } from '@mui/icons-material'
 import { AppBar, Button, Grid, IconButton, Toolbar, Typography } from '@mui/material'
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { startLogout } from "../../store/auth";
 
 export const Navbar = ({sidebarWidth}) => {
+
+    const dispatch = useDispatch();
+
+    const onLogout = () => {
+        dispatch(startLogout());
+    }
+
     return (
         <AppBar 
             position="fixed"
@@ -26,7 +35,7 @@ export const Navbar = ({sidebarWidth}) => {
                 </Grid>
 
                 <Grid container justifyContent="end" direction="row" alignItems="center" flexBasis={0}>
-                    <Button variant="contained" color="secondary">
+                    <Button onClick={onLogout} variant="contained" color="secondary">
                         <Typography sx={{fontSize: 14, mr: 1}}>Logout</Typography>
                         <LogoutOutlined sx={{fontSize: 20}} />
                     </Button>

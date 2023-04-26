@@ -1,8 +1,10 @@
-import React from 'react'
+import { useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from "react-router-dom";
-import { Button, Grid, Link, TextField, Typography } from '@mui/material'
+import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material'
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks/useForm";
+import { startEmailRegistration } from '../../store/auth/thunks';
 
 const initialForm = {
   fullName: '',
@@ -18,6 +20,12 @@ const formValidations = {
 
 export const RegisterPage = () => {
 
+  const { status, errorMessage } = useSelector(state => state.auth);
+  const isCheckingAuth = useMemo(() => status === 'checking', [status]);
+
+  const dispatch = useDispatch();
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
   const { 
     fullName, email, password, onInputChange, formState,
     isFormValid, fullNameIsValid, emailIsValid, passwordIsValid 
@@ -25,12 +33,18 @@ export const RegisterPage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setFormSubmitted(true);
+
+    if(!isFormValid) return;
+
+    dispatch(startEmailRegistration(formState));
   }
 
   return (
     <AuthLayout title="Register">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="animate__animated animate__fadeIn animate__faster">
           <Grid container>
+
             <Grid item xs={12} sx={{mt: 2}}>
               <TextField 
                 label="Full name" 
@@ -40,6 +54,8 @@ export const RegisterPage = () => {
                 name="fullName"
                 value={fullName}
                 onChange={onInputChange}
+                error={!!fullNameIsValid && formSubmitted}
+                helperText={fullNameIsValid}
               />
             </Grid>
 
@@ -53,6 +69,8 @@ export const RegisterPage = () => {
                 value={email}
                 onChange={onInputChange}
                 autoComplete="username"
+                error={!!emailIsValid && formSubmitted}
+                helperText={emailIsValid}
               />
             </Grid>
 
@@ -66,12 +84,19 @@ export const RegisterPage = () => {
                 value={password}
                 onChange={onInputChange}
                 autoComplete="current-password"
+                error={!!passwordIsValid && formSubmitted}
+                helperText={passwordIsValid}
               />
             </Grid>
 
             <Grid container spacing={2} sx={{mb: 2, mt: 1}}>
+
+              <Grid item xs={12} display={!!errorMessage ? '' : 'none'}>
+                <Alert severity="error">{errorMessage}</Alert>
+              </Grid>
+
               <Grid item xs={12}>
-                <Button type="submit" variant="contained" fullWidth>
+                <Button type="submit" variant="contained" fullWidth disabled={isCheckingAuth}>
                   Create account
                 </Button>
               </Grid>
@@ -80,7 +105,7 @@ export const RegisterPage = () => {
 
             <Grid container direction="row" justifyContent="end">
               <Typography sx={{mr: 1}}>Do you have an account?</Typography>
-              <Link component={RouterLink} color="inherit" to="/auth/register">
+              <Link component={RouterLink} color="inherit" to="/auth/login">
                 Sign in
               </Link>
             </Grid>
