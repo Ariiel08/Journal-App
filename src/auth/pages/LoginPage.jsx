@@ -19,7 +19,7 @@ export const LoginPage = () => {
 
   const dispatch = useDispatch();
 
-  const {email, password, onInputChange} = useForm(initialForm);
+  const { email, password, onInputChange } = useForm(initialForm);
 
   const onSubmit = (e) => {
     e.preventDefault();

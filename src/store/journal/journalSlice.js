@@ -7,13 +7,6 @@ export const journalSlice = createSlice({
         messageSaved: '',
         notes: [],
         activeNote: null
-        // active: {
-        //     id: 'abc',
-        //     title: '',
-        //     body: '',
-        //     date: 123,
-        //     imageUrls: []
-        // }
     },
     reducers: {
         addNote: (state, {payload}) => {
@@ -21,7 +14,6 @@ export const journalSlice = createSlice({
             state.isSaving = false;
         },
         setActiveNote: (state, {payload}) => {
-            console.log({payload});
             state.activeNote = payload;
         },
         setNotes: (state, {payload}) => {
@@ -30,11 +22,29 @@ export const journalSlice = createSlice({
         setSaving: (state) => {
             state.isSaving = true;
         },
-        updateNote: (state, action) => {
-
+        setImagesNote: (state, {payload}) => {
+            state.activeNote.imageUrls = [...state.activeNote.imageUrls, ...payload];
+            state.isSaving = false;
         },
-        deleteNoteById: (state, action) => {
+        updateNote: (state, {payload}) => {
+            state.isSaving = false;
+            state.notes = state.notes.map(note => {
+                if (note.id === payload.id) return payload; 
 
+                return note;
+            });
+        },
+        deleteNoteById: (state, {payload}) => {
+            state.activeNote = null;
+            state.notes = state.notes.filter(note => note.id !== payload);
+
+            console.log('Eliminado');
+        },
+        clearNotes: (state) => {
+            state.isSaving = false;
+            state.messageSaved = '';
+            state.notes = [];
+            state.activeNote = null;
         }
     }
 });
@@ -45,6 +55,8 @@ export const {
     setActiveNote,
     setNotes,
     setSaving,
+    setImagesNote,
     updateNote,
-    deleteNoteById 
+    deleteNoteById,
+    clearNotes 
 } = journalSlice.actions;
