@@ -1,6 +1,7 @@
 
 export const fileUpload = async(file) => {
-    if (!file) throw new Error('No files found');
+    // if (!file) throw new Error('No files found');
+    if (!file) return null;
 
     const cloudinaryURL = 'https://api.cloudinary.com/v1_1/dwprikelo/upload';
     const formData = new FormData();
@@ -20,6 +21,7 @@ export const fileUpload = async(file) => {
 
         return cloudResponse.secure_url;
     } catch (error) {
-        throw new Error(error.message);
+        // throw new Error(error.message);
+        return null;
     }
 }

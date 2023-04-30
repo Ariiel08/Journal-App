@@ -7,13 +7,13 @@ import { useForm } from "../../hooks/useForm";
 import { startEmailRegistration } from '../../store/auth/thunks';
 
 const initialForm = {
-  fullName: '',
+  displayName: '',
   email: '',
   password: '',
 }
 
 const formValidations = {
-  fullName: [(value) => value.length >= 1, 'Full name is required'],
+  displayName: [(value) => value.length >= 1, 'Full name is required'],
   email: [(value) => value.includes('@'), 'Email must have @'],
   password: [(value) => value.length >= 6, 'Password must have more than 6 characters'],
 }
@@ -27,7 +27,7 @@ export const RegisterPage = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const { 
-    fullName, email, password, onInputChange, formState,
+    displayName, email, password, onInputChange, formState,
     isFormValid, fullNameIsValid, emailIsValid, passwordIsValid 
   } = useForm(initialForm, formValidations);
 
@@ -51,8 +51,8 @@ export const RegisterPage = () => {
                 type="text" 
                 placeholder="John Doe" 
                 fullWidth
-                name="fullName"
-                value={fullName}
+                name="displayName"
+                value={displayName}
                 onChange={onInputChange}
                 error={!!fullNameIsValid && formSubmitted}
                 helperText={fullNameIsValid}

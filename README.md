@@ -13,6 +13,8 @@ Project is created with:
 * React
 * Vite
 * MaterialUI
+* React Redux
+* Firebase
 
 ## Setup
 To run this project, install it locally using npm:
@@ -20,4 +22,15 @@ To run this project, install it locally using npm:
 ```
 $ npm install
 $ npm run dev
+```
+
+Then you should add a .env file with the variables found in .env.template with your firebase configuration:
+
+```
+VITE_APIKEY=
+VITE_AUTHDOMAIN=
+VITE_PROJECTID=
+VITE_STORAGEBUCKET=
+VITE_MESSAGINGSENDERID=
+VITE_APPID=
 ```

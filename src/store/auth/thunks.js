@@ -19,15 +19,15 @@ export const startGoogleSignIn = () => {
     }
 }
 
-export const startEmailRegistration = ({fullName, email, password}) => {
+export const startEmailRegistration = ({displayName, email, password}) => {
     return async(dispatch) => {
         dispatch(checkingCredentials());
 
-        const {ok, uid, photoURL, errorMessage} = await registerWithEmail({fullName, email, password});
+        const {ok, uid, photoURL, errorMessage} = await registerWithEmail({displayName, email, password});
 
         if (!ok) return dispatch(logout({errorMessage}));
 
-        dispatch(login({uid, photoURL, displayName: fullName, email}));
+        dispatch(login({ok, uid, photoURL, displayName, email}));
     }
 }
 
@@ -39,7 +39,7 @@ export const startEmailSignIn = ({email, password}) => {
 
         if (!ok) return dispatch(logout({errorMessage}));
 
-        dispatch(login({uid, photoURL, displayName, email}));
+        dispatch(login({ok, uid, photoURL, displayName, email}));
     }
 }
 

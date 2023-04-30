@@ -29,16 +29,16 @@ export const signInWithGoogle = async() => {
     }
 }
 
-export const registerWithEmail = async({fullName, email, password}) => {
+export const registerWithEmail = async({displayName, email, password}) => {
     try {
         const resp = await createUserWithEmailAndPassword(FirebaseAuth, email, password);
         const {uid, photoURL} = resp.user;
         
-        updateProfile(FirebaseAuth.currentUser, {displayName: fullName});
+        updateProfile(FirebaseAuth.currentUser, {displayName});
 
         return {
             ok: true,
-            uid, photoURL, email, fullName
+            uid, photoURL, email, displayName
         }
 
     } catch (error) {
